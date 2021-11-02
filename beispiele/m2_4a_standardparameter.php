@@ -15,8 +15,6 @@
 		$c = $a+$b;
 		echo $c;
 	}
-
-	addieren(5,2);
 	?>
 </body>
 </html>
