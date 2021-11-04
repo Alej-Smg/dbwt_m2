@@ -11,6 +11,9 @@
     <title>Ihre E-Mensa</title>
 </head>
 <body>
+
+    <?php include "./Gerichte.php"?>
+
     <header>
         <div id="Logo">
             <p>E-Mensa Logo</p>
@@ -24,8 +27,7 @@
         </div>
     </header>
     <main>
-        <div id="empty_left1">
-            
+        <div id="empty_left1">  
         </div>
         
         <!-- Mittlere Spalte für Content -->
@@ -36,7 +38,27 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum reprehenderit enim iste hic fugiat magnam blanditiis nihil eveniet officiis ipsum laborum, minus voluptate dolore atque repudiandae voluptatibus ullam? Beatae praesentium saepe aut repudiandae repellendus, at, reprehenderit recusandae non veniam neque, enim aliquam excepturi dolorem commodi? Accusamus dignissimos dolor perspiciatis quisquam nemo ratione provident voluptates quos odio ducimus quam, itaque voluptate rem aliquid vero harum est molestiae. <br> Quis, labore. Quia sapiente quos perspiciatis unde non officiis. Officia commodi a architecto, maxime accusantium ut dolorem nisi rem dolore, soluta incidunt eveniet perspiciatis harum. Deleniti sit iure est quidem eveniet hic nostrum assumenda deserunt explicabo beatae! Deleniti ipsum esse quisquam cum inventore autem facilis veniam nihil vero ab id amet totam in ratione cupiditate, placeat sed temporibus dolorem quibusdam! Impedit fuga natus, quae mollitia velit accusamus eos dolorum modi maxime deserunt illum sit cupiditate architecto et ullam rem quos recusandae sed quisquam cum!</p>
             
             <h2 id="speisen">Köstlichkeiten, die Sie erwarten</h2>
-            <table>
+            <?php
+            echo "<table>";
+            for ($i = -1; $i < count($gerichte); $i++) {
+                if ($i == -1) {
+                    echo "<tr id='thead'>\n
+                    <th></th>\n
+                    <th>Preis intern</th>\n
+                    <th>Preis extern</th>\n
+                </tr>\n";
+                } else {
+                    echo "<tr>
+                        <td>". $gerichte[$i][0] ."</td>
+                        <td class='Preis'>". $gerichte[$i][1] ."</td>
+                        <td class='Preis'>". $gerichte[$i][2] ."</td>
+                    </tr>";
+                }
+            }
+            echo "</table>"
+            ?>
+            
+            <!-- <table>
                 <tr id="thead">
                     <th></th>
                     <th>Preis intern</th>
@@ -52,7 +74,7 @@
                     <td class="Preis">2,90</td>
                     <td class="Preis">5,30</td>
                 </tr>
-            </table>
+            </table> -->
 
             <h2 id="zahlen">E-Mensa in Zahlen</h2>
             <div id="grid2">
@@ -107,9 +129,7 @@
             <h2 id="aufwiedersehen"> Wir freuen uns auf Ihren Besuch!</h2>
         </div>
 
-        <div id="empty_right1">
-            
-        </div>
+        <div id="empty_right1"></div>
     </main>
     <footer>
         <div id="empty_left2">
