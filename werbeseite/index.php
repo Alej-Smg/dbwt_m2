@@ -62,8 +62,6 @@
             }
             ?>
 
-            <!-- <img src="./SpinatrisottoMitSamosateigecken.jpg" alt="Bild für Spinatrisotto"> -->
-
             <h2 id="zahlen">E-Mensa in Zahlen</h2>
             <div id="grid2">
                 <div>
@@ -79,15 +77,48 @@
 
             <h2 id="kontakt">Interesse geweckt? Wir informieren Sie!</h2>
             <div>
-                <form action="none" method="post">
+                <!-- 
+    $name = test_input($_POST["vorname"]);
+    // check if name only contains letters and whitespace
+    if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
+      $nameErr = "Only letters and white space allowed";
+    }
+    $email = test_input($_POST["email"]);
+    // check if e-mail address is well-formed
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) && (strpos($email, "rcpt") && strpos($email, "damnthespam") && strpos($email, "wegwerfmail") && strpos($email, "trashmail"))) {
+      $emailErr = "Invalid email format";
+    }-->
+                <?php
+                                        // Datenverarbeitung  //
+
+                // neue Userdaten lesen
+                $newUser = array(array($_POST["vorname"], $_POST["email"], $_POST["newsSprache"]));
+                
+                if (file_exists("user.json")) { // wenn alte userdaten existieren:
+                    // alte Userdaten lesen
+                    $userlist = json_decode(file_get_contents("user.json"), true);
+                    
+                    if (array_search($newUser[0], $userlist) == false) { // wenn neuer user noch nicht in der Liste
+                        // arrays mergen 
+                        $newUserlist = array_merge($userlist, $newUser);
+                    }
+                    // neues Array speichern
+                    file_put_contents("user.json", json_encode($newUserlist));
+                } else {
+                    // sonst neuen/ersten user speichern
+                    file_put_contents("user.json", json_encode($newUser));
+                }
+                ?>
+                
+                <form action="./index.php" method="post">
                     <div id="formGrid">
                         <div>
                             <label for="vorname">Ihr Name:</label><br>
-                            <input type="text" placeholder="Vorname" id="vorname">
+                            <input type="text" placeholder="Vorname" id="vorname" name="vorname" required>
                         </div>
                         <div>
                             <label for="email">Ihre E-Mail:</label><br>
-                            <input type="email" id="email">
+                            <input type="email" id="email" placeholder="name@example.com" name="email" required>
                         </div>
                         <div>
                             <label for="newsSprache">Newsletter bitte in:</label><br>
@@ -99,9 +130,9 @@
                             </select>
                         </div>
                     </div>
-                    <input type="checkbox" id="dsgvo">
+                    <input type="checkbox" id="dsgvo" name="dsgvo" required>
                     <label for="dsgvo">Den Datenschutzbestimmungen stimme ich zu</label>
-                    <input type="submit" name="submit" id="formSubmit" value="Zum Newsletter anmelden" disabled>
+                    <input type="submit" name="submit" id="formSubmit" value="Zum Newsletter anmelden">
                 </form>
             </div>
             
