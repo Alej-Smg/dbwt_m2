@@ -55,26 +55,14 @@
                     </tr>";
                 }
             }
-            echo "</table>"
+            echo "</table>";
+
+            for ($i = 0; $i < count($gerichte); $i++) {
+                echo "<img src='". $gerichte[$i][3] ."' alt=''>";
+            }
             ?>
-            
-            <!-- <table>
-                <tr id="thead">
-                    <th></th>
-                    <th>Preis intern</th>
-                    <th>Preis extern</th>
-                </tr>
-                <tr>
-                    <td>Rindfleisch mit Bambus, Kaiserschoten und rotem Paprika, dazu Mie Nudeln</td>
-                    <td class="Preis">3,50</td>
-                    <td class="Preis">6,20</td>
-                </tr>
-                <tr>
-                    <td>Spinatrisotto mit kleinen Samosateigecken und gemischter Salat</td>
-                    <td class="Preis">2,90</td>
-                    <td class="Preis">5,30</td>
-                </tr>
-            </table> -->
+
+            <!-- <img src="./SpinatrisottoMitSamosateigecken.jpg" alt="Bild für Spinatrisotto"> -->
 
             <h2 id="zahlen">E-Mensa in Zahlen</h2>
             <div id="grid2">
