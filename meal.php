@@ -103,9 +103,15 @@ function calcMeanStars(array $ratings) : float {
         </p>
 
         <h1>Bewertungen (Insgesamt: <?php echo calcMeanStars($ratings); ?>)</h1>
+
+        <?php
+        $search_value = "";
+        if (isset($_GET["search_text"])) $search_value = $_GET["search_text"];
+        ?>
+
         <form method="get">
             <label for="search_text">Filter:</label>
-            <input id="search_text" type="text" name="search_text" value="<?php echo "$_GET[search_text]";?>">
+            <input id="search_text" type="text" name="search_text" value="<?php echo "$search_value";?>">
             <input type="submit" value="Suchen">
         </form>
 
@@ -120,11 +126,30 @@ function calcMeanStars(array $ratings) : float {
             </thead>
             <tbody>
             <?php
-        foreach ($showRatings as $rating) {
-            echo "<tr><td class='rating_text'>{$rating['text']}</td>
-                      <td class='rating_stars'>{$rating['stars']}</td>
-                      <td class='rating_autor'>{$rating['author']}</td>
-                  </tr>";
+        // foreach ($showRatings as $rating) {
+        //     echo "<tr><td class='rating_text'>{$rating['text']}</td>
+        //               <td class='rating_stars'>{$rating['stars']}</td>
+        //               <td class='rating_autor'>{$rating['author']}</td>
+        //           </tr>";
+        // }
+
+        for ($i = 0; $i < count($ratings); $i++) {
+            if ($search_value == "") {
+                    echo "<tr><td class='rating_text'>{$ratings[$i]['text']}</td>
+                              <td class='rating_stars'>{$ratings[$i]['stars']}</td>
+                              <td class='rating_autor'>{$ratings[$i]['author']}</td>
+                          </tr>";
+            } else {
+                echo "<tr>\n";
+
+                if (strpos($ratings[$i]['text'], $search_value) !== false) {
+                    echo "<td class='rating_text'>{$ratings[$i]['text']}</td>
+                    <td class='rating_stars'>{$ratings[$i]['stars']}</td>
+                    <td class='rating_autor'>{$ratings[$i]['author']}</td>";
+                }
+
+                echo "</tr>";
+            }
         }
         ?>
             </tbody>
