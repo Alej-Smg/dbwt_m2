@@ -83,10 +83,10 @@
 	if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
 	  $nameErr = "Only letters and white space allowed";
 	}
-	$email = test_input($_POST["email"]);
+	$_POST["email"] = test_input($_POST["email"]);
 	// check if e-mail address is well-formed
-	if (!filter_var($email, FILTER_VALIDATE_EMAIL) && (strpos($email, "rcpt") && strpos($email, "damnthespam") && strpos($email, "wegwerfmail") && strpos($email, "trashmail"))) {
-	  $emailErr = "Invalid email format";
+	if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) && (strpos($_POST["email"], "rcpt") && strpos($_POST["email"], "damnthespam") && strpos($_POST["email"], "wegwerfmail") && strpos($_POST["email"], "trashmail"))) {
+	  $_POST["email"]Err = "Invalid email format";
 	}-->
 				<form action="./index.php" method="post">
 					<div id="formGrid">
@@ -124,9 +124,9 @@
 
 					// boolean var. werden später gebraucht
 					$nameOK = false;
-					$mailOK = false;
+					$mailOK = true;
 					
-					// Array mit alleb Buchstaben
+					// Array mit allen Buchstaben
 					$letters = array("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
 									 "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
 					
@@ -136,23 +136,28 @@
 					// Gucken, ob mindest ein Buchstabe enthalten ist. 
 					// Falls ja => var $nameOK auf true setzen
 					for ($i = 0; $i < count($letters); $i++){
-						if (strpos($_POST["vorname"], $letters[$i]) == false) $nameOK = true;
+						if (strpos($_POST["vorname"], $letters[$i]) != false) {
+							$nameOK = true;
+							break;
+						}
 					}
 
 					// Gucken, ob nichterwünschte Mailadressen genutzt werden
-					// Falls ja => var $mailOK auf true setzen
-					for ($i = 0; $i < count($bannedMail); $i++) {
-						if (strpos($_POST["email"], $bannedMail[$i]) == false) $mailOK = true;
-					}
+					// Falls ja => var $mailOK auf false setzen
+					// for ($i = 0; $i < count($bannedMail); $i++) {
+					// 	if (strpos($_POST["email"], $bannedMail[$i]) != false) {
+					// 		$mailOK = false;
+					// 	}
+					// }
 
 					// Gucken ob der Name Sonderzeichen enthält 
 					// ja => 'Fehler' ausgeben, nein => skipp
-					if (!preg_match("/^[a-zA-Z-' ]*$/", $_POST["vorname"]) && $nameOK) {
+					if (!preg_match("/^(?!\s*$)[\sa-zA-Z]+$/", $_POST["vorname"])) {
 						echo "Der Name darf nur Buchstaben und Leerzeichen enthalten";
 					
 					// Gucken ob die E-Mailadresse gültig ist
 					// ja => skipp, nein => 'Fehler' ausgeben
-					} else if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) && !$mailOK) {
+					} else if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) || (strpos($_POST["email"], "rcpt") !== false || strpos($_POST["email"], "damnthespam") !== false || strpos($_POST["email"], "wegwerfmail") !== false|| strpos($_POST["email"], "trashmail") !== false)) {
 						echo "Die E-Mailadresse ist ungültig";
 					
 					// wenn alte userdaten existieren:
