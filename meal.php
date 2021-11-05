@@ -82,9 +82,22 @@ function calcMeanStars(array $ratings) : float {
         </style>
     </head>
     <body>
-        <h1>Gericht: <?php echo $meal['name']; ?></h1>
-        <p><?php echo $meal['description']; ?></p>
 
+        <h1>Gericht: <?php echo $meal['name']; ?></h1>
+
+            <form method="get">
+                <label for="show_description">Beschreibung anzeigen:</label>
+                <input id="show_description" type="checkbox" name="show_description">
+                <input type="hidden" name="sprache" value="<?php echo $sprache;  ?>" />
+                <input type="submit" value="Anzeigen">
+            </form>
+
+            <?php
+            if (isset($_GET["show_description"]) && (bool)$_GET["show_description"] == true) {
+                echo $meal['description'];
+            }
+            ?>
+        
         <table class="price">
             <tr>
                 <td>Preis Intern</td>
